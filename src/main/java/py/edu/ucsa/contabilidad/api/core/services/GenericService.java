@@ -10,3 +10,4 @@ public interface GenericService<PK,T>{
 	T actualizar(T entity);
 	void eliminar(T entity);
 }
+

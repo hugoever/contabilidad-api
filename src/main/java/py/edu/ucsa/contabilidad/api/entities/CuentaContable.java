@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NamedQuery(name = "CuentaContable.getCuentasAsentables",
 			query = "SELECT cc FROM CuentaContable cc WHERE cc.asentable = true")
 @NamedQuery(name = "CuentaContable.getCuentaByNroCuenta",
-			query = "SELECT cc FROM CuentaContable cc WHERE cc.numero_cuenta = :nroCuenta")
+			query = "SELECT cc FROM CuentaContable cc WHERE cc.nroCuenta = :nroCuenta")
 public class CuentaContable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,8 +51,8 @@ public class CuentaContable {
 	private String tipoCuenta; //A:ACTIVO, P:PASIVO, D:DEUDORA, H:ACREEDORA
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_cuenta_padre")
-	private Long idCuentaPadre;
+	  @JoinColumn(name = "id_cuenta_padre")
+	  private CuentaContable cuentaPadre;
 
 	 // Overriding equals and hashcode for entity comparison
     @Override

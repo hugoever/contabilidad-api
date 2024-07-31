@@ -59,3 +59,4 @@ public class CuentaContableServiceImpl implements CuentaContableService {
 	}
 
 }
+

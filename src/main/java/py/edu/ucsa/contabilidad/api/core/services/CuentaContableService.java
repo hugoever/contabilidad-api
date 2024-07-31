@@ -2,6 +2,8 @@ package py.edu.ucsa.contabilidad.api.core.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import py.edu.ucsa.contabilidad.api.entities.CuentaContable;
 
 public interface CuentaContableService extends GenericService<Integer, CuentaContable> {
@@ -10,3 +12,4 @@ public interface CuentaContableService extends GenericService<Integer, CuentaCon
 	public CuentaContable getCuentaByNroCuenta(String nroCuenta);
 
 }
+
