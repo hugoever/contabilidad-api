@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(scanBasePackages = {"py.edu.ucsa.contabilidad.api.web.controllers",
 										   "py.edu.ucsa.contabilidad.api.core.services",
-										   "py.edu.ucsa.contabilidad.api.dao"})
+										   "py.edu.ucsa.contabilidad.api.core.dao"})
 @EnableAutoConfiguration
 @Import(JpaConfiguration.class)
 @EnableTransactionManagement

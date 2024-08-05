@@ -24,8 +24,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import jakarta.persistence.EntityManagerFactory;
 
 @Configuration
-@EntityScan("py.edu.ucsa.contabilidad.api.entities") // Escanea las entidades en este paquete
-@EnableJpaRepositories(basePackages = "py.edu.ucsa.contabilidad.api.entities")
+@EntityScan("py.edu.ucsa.contabilidad.api.core.entities") // Escanea las entidades en este paquete
+@EnableJpaRepositories(basePackages = "py.edu.ucsa.contabilidad.api.core.entities")
 @EnableTransactionManagement
 @PropertySource(value="classpath:application.properties")
 public class JpaConfiguration {
@@ -56,7 +56,7 @@ public class JpaConfiguration {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException{
 		LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
 		bean.setDataSource(dataSource());
-		bean.setPackagesToScan("py.edu.ucsa.contabilidad.api.entities");
+		bean.setPackagesToScan("py.edu.ucsa.contabilidad.api.core.entities");
 		bean.setJpaVendorAdapter(jpaVendorAdapter());
 		bean.setJpaProperties(jpaProperties());
 		return bean;

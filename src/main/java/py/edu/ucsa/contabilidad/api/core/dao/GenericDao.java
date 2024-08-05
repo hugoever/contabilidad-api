@@ -1,4 +1,4 @@
-package py.edu.ucsa.contabilidad.api.dao;
+package py.edu.ucsa.contabilidad.api.core.dao;
 
 import java.io.Serializable;
 import java.util.List;

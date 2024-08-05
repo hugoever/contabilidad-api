@@ -1,19 +1,22 @@
 package py.edu.ucsa.contabilidad.api.core.services.impl;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.FetchType;
 import jakarta.transaction.Transactional;
+import py.edu.ucsa.contabilidad.api.core.dao.CuentaContableDao;
+import py.edu.ucsa.contabilidad.api.core.entities.CuentaContable;
 import py.edu.ucsa.contabilidad.api.core.services.CuentaContableService;
-import py.edu.ucsa.contabilidad.api.dao.CuentaContableDao;
-import py.edu.ucsa.contabilidad.api.entities.CuentaContable;
 
 @Service("cuentaContableService")
 @Transactional
 public class CuentaContableServiceImpl implements CuentaContableService {
-	
+
 	@Autowired
 	private CuentaContableDao cuentaContableDao;
 
@@ -23,9 +26,13 @@ public class CuentaContableServiceImpl implements CuentaContableService {
 	}
 
 	@Override
-	public CuentaContable getById(Integer id) {
-		return cuentaContableDao.getById(id);
+	public Optional<CuentaContable> getById(Integer id, FetchType eager) {
+		return Optional.ofNullable(cuentaContableDao.getById(id));
 	}
+//	@Override
+//	public CuentaContable getById(Integer id) {
+//	    return cuentaContableDao.getById(id);
+//	}
 
 	@Override
 	public CuentaContable persistir(CuentaContable entity) {
@@ -58,5 +65,24 @@ public class CuentaContableServiceImpl implements CuentaContableService {
 		return cuentaContableDao.getCuentaByNroCuenta(nroCuenta);
 	}
 
-}
+	@Override
+	public boolean isExisteCuentaContable(String nroCuenta) {
+		return Objects.nonNull(getCuentaByNroCuenta(nroCuenta));
+	}
 
+	@Override
+	public CuentaContable getCuentaByCodigo(String codigo) {
+		return cuentaContableDao.getCuentaByCodigo(codigo);
+	}
+
+	@Override
+	public List<CuentaContable> getCuentasByTipo(String tipoCuenta) {
+		return cuentaContableDao.getCuentasByTipo(tipoCuenta);
+	}
+
+	@Override
+	public List<CuentaContable> getCuentasHijas(Integer id) {
+		return cuentaContableDao.getCuentasHijas(id);
+	}
+
+}
