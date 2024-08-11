@@ -21,7 +21,7 @@ import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import py.edu.ucsa.contabilidad.api.web.dto.ErrorDTO;
+import py.edu.ucsa.contabilidad.api.web.dto.ErrorDto;
 import py.edu.ucsa.contabilidad.api.web.validators.Validable;
 import py.edu.ucsa.contabilidad.api.web.validators.Validador;
 
@@ -73,7 +73,14 @@ public class CuentaContable implements Serializable, Validable<CuentaContable> {
 	@JsonIgnore
 	@Transient
 	private List<Validador<CuentaContable>> validadores;
-		
+	
+	public List<Validador<CuentaContable>> getValidadores() {
+		if(Objects.isNull(validadores)) {
+			validadores = new ArrayList<>();
+		}
+		return validadores;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 	    if (this == o) return true;
@@ -88,8 +95,8 @@ public class CuentaContable implements Serializable, Validable<CuentaContable> {
 	}
 		
 	@Override
-	public List<ErrorDTO> validar() {
-		List<ErrorDTO> errores = new ArrayList<>();
+	public List<ErrorDto> validar() {
+		List<ErrorDto> errores = new ArrayList<>();
 		this.getValidadores().forEach(v -> errores.addAll(v.validar(this)));
 		return errores;
 	}

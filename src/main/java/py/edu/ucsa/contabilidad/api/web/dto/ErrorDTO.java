@@ -1,9 +1,9 @@
 package py.edu.ucsa.contabilidad.api.web.dto;
 
-public class ErrorDTO {
+public class ErrorDto {
 	private String mensajeError;
 	
-	public ErrorDTO(String mensajeError) {
+	public ErrorDto(String mensajeError) {
 		this.mensajeError=mensajeError;
 	}
 	

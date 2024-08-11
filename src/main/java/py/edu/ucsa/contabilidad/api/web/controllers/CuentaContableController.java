@@ -25,7 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import jakarta.persistence.FetchType;
 import py.edu.ucsa.contabilidad.api.core.entities.CuentaContable;
 import py.edu.ucsa.contabilidad.api.core.services.CuentaContableService;
-import py.edu.ucsa.contabilidad.api.web.dto.ErrorDTO;
+import py.edu.ucsa.contabilidad.api.web.dto.ErrorDto;
 import py.edu.ucsa.contabilidad.api.web.validators.impl.CuentaContableValidador;
 
 @RestController
@@ -61,18 +61,18 @@ public class CuentaContableController {
 		//if(Objects.nonNull(cuentaContableService.getCuentaByNroCuenta(cuentaContable.getNroCuenta()))) {
 		if(cuentaContableService.isExisteCuentaContable(cuentaContable.getNroCuenta())) {
 			logger.error("Inserción fallida, ya existe la cuenta contable número: "+cuentaContable.getNroCuenta());
-			return new ResponseEntity<ErrorDTO>(new ErrorDTO ("Ya existe la cuenta contable con el número: "+cuentaContable.getNroCuenta()), HttpStatus.CONFLICT);
+			return new ResponseEntity<ErrorDto>(new ErrorDto ("Ya existe la cuenta contable con el número: "+cuentaContable.getNroCuenta()), HttpStatus.CONFLICT);
 		}
 		CuentaContableValidador v1 = new CuentaContableValidador();
 		cuentaContable.agregarValidador(v1);		
-		List<ErrorDTO> errores = cuentaContable.validar();
+		List<ErrorDto> errores = cuentaContable.validar();
 		if(errores.isEmpty()) {
 			CuentaContable insertado = cuentaContableService.persistir(cuentaContable);
 			HttpHeaders headers = new HttpHeaders();
 			headers.setLocation(ucBuilder.path("/cuentas-contables/{id}").buildAndExpand(insertado.getId()).toUri());
 			return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 		}else {
-			return new ResponseEntity<List<ErrorDTO>>(errores, HttpStatus.CREATED);
+			return new ResponseEntity<List<ErrorDto>>(errores, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 			
 		}
@@ -83,11 +83,11 @@ public class CuentaContableController {
 		Optional<CuentaContable> cuentaBD = cuentaContableService.getById(id, null);
 		if(Objects.isNull(cuentaBD)) {
 			logger.error("Actualización fallida, no existe la cuenta contable: {}", id);
-			return new ResponseEntity<ErrorDTO>(
-					new ErrorDTO("Actualización fallida. No existe la cuenta contable con el id " + id), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ErrorDto>(
+					new ErrorDto("Actualización fallida. No existe la cuenta contable con el id " + id), HttpStatus.NOT_FOUND);
 		}
 		cuentaContableService.actualizar(cuenta);
-		return new ResponseEntity<Optional<CuentaContable>>(cuentaBD,HttpStatus.OK);
+		return new ResponseEntity<CuentaContable>(cuenta,HttpStatus.OK);
 	}
 	
 	@DeleteMapping("{id}")
@@ -96,12 +96,12 @@ public class CuentaContableController {
 		Optional<CuentaContable> cuentaBD = cuentaContableService.getById(id, null);
 		if(Objects.isNull(cuentaBD)) {
 			logger.error("Eliminación fallida, no existe la cuenta contable: {}", id);
-			return new ResponseEntity<ErrorDTO>(
-					new ErrorDTO("Eliminación fallida. No existe la cuenta contable con el id " + id), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ErrorDto>(
+					new ErrorDto("Eliminación fallida. No existe la cuenta contable con el id " + id), HttpStatus.NOT_FOUND);
 		}
 		String cuentaEliminada = cuentaBD.get().getDescripcion();
 		cuentaContableService.eliminar(cuentaBD.get());
-		return new ResponseEntity<ErrorDTO>(new ErrorDTO("Cuenta Contable "+ cuentaEliminada + " eliminada satisfactoriamente."),HttpStatus.OK);
+		return new ResponseEntity<ErrorDto>(new ErrorDto("Cuenta Contable "+ cuentaEliminada + " eliminada satisfactoriamente."),HttpStatus.OK);
 	}
 	
 	@GetMapping("/por-nivel/{nivel}")
@@ -109,8 +109,8 @@ public class CuentaContableController {
 		List<CuentaContable> cuentasBD = cuentaContableService.getCuentasByNivel(nivel);
 		if(cuentasBD == null || cuentasBD.isEmpty()) {
 			logger.error("No existen cuentas con el nivel: {}", nivel);
-			return new ResponseEntity<ErrorDTO>(
-					new ErrorDTO("No existen cuentas con el nivel: " + nivel), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ErrorDto>(
+					new ErrorDto("No existen cuentas con el nivel: " + nivel), HttpStatus.NOT_FOUND);
 		}
 		cuentaContableService.getCuentasByNivel(nivel);
 		return ResponseEntity.ok(cuentasBD);
@@ -127,8 +127,8 @@ public class CuentaContableController {
 		CuentaContable cuentasBD = cuentaContableService.getCuentaByNroCuenta(nroCuenta);
 		if(Objects.isNull(cuentasBD)) {
 			logger.error("No se encuentra la cuenta número: {}", nroCuenta);
-			return new ResponseEntity<ErrorDTO>(
-					new ErrorDTO("No se encuentra la cuenta número: " + nroCuenta), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ErrorDto>(
+					new ErrorDto("No se encuentra la cuenta número: " + nroCuenta), HttpStatus.NOT_FOUND);
 		}
 		return ResponseEntity.ok(cuentaContableService.getCuentaByNroCuenta(nroCuenta));
 		
@@ -139,8 +139,8 @@ public class CuentaContableController {
 		CuentaContable cuentaBD = cuentaContableService.getCuentaByCodigo(codigo);
 		if(Objects.isNull(cuentaBD)) {
 			logger.error("No se encuentra la cuenta con el código: {}", codigo);
-			return new ResponseEntity<ErrorDTO>(
-					new ErrorDTO("No se encuentra la cuenta con el código: {}"+codigo),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ErrorDto>(
+					new ErrorDto("No se encuentra la cuenta con el código: {}"+codigo),HttpStatus.NOT_FOUND);
 		}
 		return ResponseEntity.ok(cuentaContableService.getCuentaByCodigo(codigo));
 	}
@@ -151,8 +151,8 @@ public class CuentaContableController {
 		List<CuentaContable> cuentasBD = cuentaContableService.getCuentasByTipo(tipoCuenta);
 		if(cuentasBD == null || cuentasBD.isEmpty()) {
 			logger.error("No existen cuentas con el tipo: {}", tipoCuenta);
-			return new ResponseEntity<ErrorDTO>(
-					new ErrorDTO("No existen cuentas con el tipo: " + tipoCuenta), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ErrorDto>(
+					new ErrorDto("No existen cuentas con el tipo: " + tipoCuenta), HttpStatus.NOT_FOUND);
 		}
 		cuentaContableService.getCuentasByTipo(tipoCuenta);
 		return ResponseEntity.ok(cuentasBD);
@@ -164,13 +164,13 @@ public class CuentaContableController {
 		Optional<CuentaContable> c = cuentaContableService.getById(id, null);
 		if(Objects.isNull(c)) {
 			logger.error("No se encuentra la cuenta con el id: {}", id);
-			return new ResponseEntity<ErrorDTO>(
-					new ErrorDTO("No se encuentra la cuenta con el id: {}"+id),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ErrorDto>(
+					new ErrorDto("No se encuentra la cuenta con el id: {}"+id),HttpStatus.NOT_FOUND);
 		}
 		if(cuentasBD == null || cuentasBD.isEmpty()) {
 			logger.error("No existen cuentas hijas con el padre: {}", c.get().getDescripcion() );
-			return new ResponseEntity<ErrorDTO>(
-					new ErrorDTO("No existen cuentas hijas con el padre: " + c.get().getDescripcion()), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ErrorDto>(
+					new ErrorDto("No existen cuentas hijas con el padre: " + c.get().getDescripcion()), HttpStatus.NOT_FOUND);
 		}
 		cuentaContableService.getCuentasHijas(id);
 		return ResponseEntity.ok(cuentasBD);

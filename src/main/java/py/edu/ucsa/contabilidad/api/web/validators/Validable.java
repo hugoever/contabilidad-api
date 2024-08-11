@@ -2,7 +2,7 @@ package py.edu.ucsa.contabilidad.api.web.validators;
 
 import java.util.List;
 
-import py.edu.ucsa.contabilidad.api.web.dto.ErrorDTO;
+import py.edu.ucsa.contabilidad.api.web.dto.ErrorDto;
 
 /**
  * Interface que será implementada por aquellas clases que 
@@ -16,7 +16,7 @@ public interface Validable<T> {
 	 * validar de cada uno de dichos validadores
 	 * @return Lista con errores generados por la validación
 	 */
-	List<ErrorDTO> validar();
+	List<ErrorDto> validar();
 	
 	/**
 	 * Método que se encargará de agregar validadores
