@@ -8,5 +8,7 @@ public class AsientoDetDto {
     private Double montoDebe;
     private Double montoHaber;
     private Long asientoCabId; // only the ID of the AsientoCab, not the entire object
+    private String asientoCabDescripcion;
     private Long cuentaContableId; // only the ID of the CuentaContable, not the entire object
+    private String cuentaContableDescripcion;
 }

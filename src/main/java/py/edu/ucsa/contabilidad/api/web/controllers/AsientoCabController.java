@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,6 +83,20 @@ public class AsientoCabController {
 		}
 		asientoCabService.actualizar(asiento);
 		return new ResponseEntity<AsientoCab>(asiento,HttpStatus.OK);
+	}
+	
+	@DeleteMapping("{id}")
+	public ResponseEntity<?> eliminarAsientoCab(@PathVariable("id") Long id){
+		logger.info("Eliminando la cabecera del asiento con el id: {}", id);
+		Optional<AsientoCab> asientoBD = asientoCabService.getById(id, null);
+		if(Objects.isNull(asientoBD)) {
+			logger.error("Eliminación fallida, no existe la cabecera del asiento: {}", id);
+			return new ResponseEntity<ErrorDto>(
+					new ErrorDto("Eliminación fallida, no existe la cabecera del asiento " + id), HttpStatus.NOT_FOUND);
+		}
+		String asientoEliminado = asientoBD.get().getDescripcion();
+		asientoCabService.eliminar(asientoBD.get());
+		return new ResponseEntity<ErrorDto>(new ErrorDto("Cabecera del Asiento "+ asientoEliminado + " eliminada satisfactoriamente."),HttpStatus.OK);
 	}
 	
 	
