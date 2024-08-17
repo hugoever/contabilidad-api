@@ -17,15 +17,23 @@ public class AsientoCabDaoImpl extends AbstractDao<Long, AsientoCab> implements 
 		try {
 			Query q = this.getEntityManager().createNamedQuery("AsientoCab.getAsientoCabByNroAsiento");
 			q.setParameter("nroAsiento", nroAsiento);
-			//CuentaContable resultado = (CuentaContable) q.getSingleResult();
             return (AsientoCab) q.getSingleResult();
         } catch (NoResultException e) {
             logger.info("No se encontró un asiento con el número: {}", nroAsiento);
             return null; // O lanzar una excepción personalizada
+            //throw new NonUniqueResultException("No hay resultados para el número de cuenta");
         } catch (NonUniqueResultException e) {
             logger.error("Se encontraron múltiples asiento con el número: {}", nroAsiento);
             throw new NonUniqueResultException("Múltiples resultados para el número de cuenta");
         }
+//		Query q = this.getEntityManager().createNamedQuery("AsientoCab.getAsientoCabByNroAsiento");
+//		q.setParameter("nroAsiento", nroAsiento);
+//		try {
+//			AsientoCab resultado = (AsientoCab) q.getSingleResult();
+//			return Optional.of(resultado);
+//		}catch (NoResultException e) {
+//			return Optional.empty();
+//		}
 	}
 
 }

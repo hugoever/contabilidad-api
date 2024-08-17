@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.FetchType;
 import jakarta.transaction.Transactional;
 import py.edu.ucsa.contabilidad.api.core.dao.CuentaContableDao;
 import py.edu.ucsa.contabilidad.api.core.entities.CuentaContable;
@@ -26,8 +25,8 @@ public class CuentaContableServiceImpl implements CuentaContableService {
 	}
 
 	@Override
-	public Optional<CuentaContable> getById(Integer id, FetchType eager) {
-		return Optional.ofNullable(cuentaContableDao.getById(id));
+	public CuentaContable getById(Long id) {
+		return cuentaContableDao.getById(id);
 	}
 //	@Override
 //	public CuentaContable getById(Integer id) {
@@ -71,7 +70,7 @@ public class CuentaContableServiceImpl implements CuentaContableService {
 	}
 
 	@Override
-	public CuentaContable getCuentaByCodigo(String codigo) {
+	public Optional<CuentaContable> getCuentaByCodigo(String codigo) {
 		return cuentaContableDao.getCuentaByCodigo(codigo);
 	}
 
@@ -81,7 +80,7 @@ public class CuentaContableServiceImpl implements CuentaContableService {
 	}
 
 	@Override
-	public List<CuentaContable> getCuentasHijas(Integer id) {
+	public List<CuentaContable> getCuentasHijas(Long id) {
 		return cuentaContableDao.getCuentasHijas(id);
 	}
 

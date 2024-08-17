@@ -3,12 +3,10 @@ package py.edu.ucsa.contabilidad.api.core.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.FetchType;
 import jakarta.transaction.Transactional;
 import py.edu.ucsa.contabilidad.api.core.dao.AsientoCabDao;
 import py.edu.ucsa.contabilidad.api.core.entities.AsientoCab;
@@ -28,13 +26,11 @@ public class AsientoCabServiceImpl implements AsientoCabService {
 	}
 
 	@Override
-	public Optional<AsientoCab> getById(Long id, FetchType eager) {
-	  if (eager == FetchType.EAGER) {
-	    return Optional.ofNullable(asientoCabDao.getById(id));
-	  } else {
+	public AsientoCab getById(Long id) {
+	 
 	    // Handle non-eager case if needed (default behavior)
-	    return Optional.ofNullable(asientoCabDao.getById(id));
-	  }
+	    return asientoCabDao.getById(id);
+	  
 	}
 
 	@Override

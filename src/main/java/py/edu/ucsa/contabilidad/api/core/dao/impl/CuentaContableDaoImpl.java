@@ -1,6 +1,7 @@
 package py.edu.ucsa.contabilidad.api.core.dao.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ import py.edu.ucsa.contabilidad.api.core.dao.CuentaContableDao;
 import py.edu.ucsa.contabilidad.api.core.entities.CuentaContable;
 
 @Repository("cuentaContableDao")
-public class CuentaContableDaoImpl extends AbstractDao<Integer, CuentaContable> implements CuentaContableDao {
+public class CuentaContableDaoImpl extends AbstractDao<Long, CuentaContable> implements CuentaContableDao {
 	private static final Logger logger = LoggerFactory.getLogger(CuentaContable.class);
 	@Override
 	public List<CuentaContable> getCuentasByNivel(Integer nivel) {
@@ -51,11 +52,15 @@ public class CuentaContableDaoImpl extends AbstractDao<Integer, CuentaContable> 
 	}
 
 	@Override
-	public CuentaContable getCuentaByCodigo(String codigo) {
+	public Optional<CuentaContable> getCuentaByCodigo(String codigo) {
 		Query q = this.getEntityManager().createNamedQuery("CuentaContable.getCuentaByCodigo");
 		q.setParameter("codigo", codigo);
+		 try {
 		CuentaContable resultado = (CuentaContable) q.getSingleResult();
-		return resultado;
+		 return Optional.of(resultado);
+		 } catch (NoResultException e) {
+		        return Optional.empty();
+		    }
 	}
 
 	@Override
@@ -68,7 +73,7 @@ public class CuentaContableDaoImpl extends AbstractDao<Integer, CuentaContable> 
 	}
 
 	@Override
-	public List<CuentaContable> getCuentasHijas(Integer id) {
+	public List<CuentaContable> getCuentasHijas(Long id) {
 		TypedQuery<CuentaContable> q = this.getEntityManager().createNamedQuery("CuentaContable.getCuentasHijas", CuentaContable.class);
 		//Query q = this.getEntityManager().createNamedQuery("CuentaContable.getCuentasHijas");
 		q.setParameter("id", id);

@@ -13,7 +13,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
 public abstract class AbstractDao<PK extends Serializable,T> implements GenericDao<PK, T>{
-	private final Class<T> persistentClass;
+private final Class<T> persistentClass;
 	
 	protected Logger logger = null;
 	

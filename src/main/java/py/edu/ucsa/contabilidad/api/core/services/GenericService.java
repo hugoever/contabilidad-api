@@ -8,7 +8,7 @@ import jakarta.persistence.FetchType;
 public interface GenericService<PK,T>{
 
 	List<T> listar();
-	Optional<T> getById(PK id, FetchType eager);
+	T getById(PK id);
 	T persistir(T entity);
 	T actualizar(T entity);
 	void eliminar(T entity);

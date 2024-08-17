@@ -2,7 +2,6 @@ package py.edu.ucsa.contabilidad.api.web.controllers;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +48,16 @@ public class AsientoCabController {
 	
 	@GetMapping("{id}")
 	public ResponseEntity<?> getById(@PathVariable("id") Long id){
-		return ResponseEntity.ok(asientoCabService.getById(id, null));		
+		logger.info("Buscando Cuenta con el id: {}", id);
+		AsientoCab cuentaBD = asientoCabService.getById(id);
+		if (Objects.isNull(cuentaBD)) {
+			logger.error("Actualización fallida, no existe la cabecera del asiento: {}", id);
+			return new ResponseEntity<ErrorDto>(new ErrorDto("Búsqueda fallida. No existe la cabecera del asiento con el id " + id),
+					HttpStatus.NOT_FOUND);
+		}
+		AsientoCab asientoCab;
+		asientoCab = asientoCabService.getById(id);
+		return ResponseEntity.ok(asientoCab);	
 	}
 	
 	@PostMapping
@@ -75,7 +83,7 @@ public class AsientoCabController {
 	@PutMapping("{id}")
 	public ResponseEntity<?> actualizarAsientoCab(@PathVariable("id") Long id, @RequestBody AsientoCab asiento){
 		logger.info("Actualizando el asiento con el id: {}", id);
-		Optional<AsientoCab> asientoBD = asientoCabService.getById(id, null);
+		AsientoCab asientoBD = asientoCabService.getById(id);
 		if(Objects.isNull(asientoBD)) {
 			logger.error("Actualización fallida, no existe el asiento: {}", id);
 			return new ResponseEntity<ErrorDto>(
@@ -88,14 +96,14 @@ public class AsientoCabController {
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> eliminarAsientoCab(@PathVariable("id") Long id){
 		logger.info("Eliminando la cabecera del asiento con el id: {}", id);
-		Optional<AsientoCab> asientoBD = asientoCabService.getById(id, null);
+		AsientoCab asientoBD = asientoCabService.getById(id);
 		if(Objects.isNull(asientoBD)) {
 			logger.error("Eliminación fallida, no existe la cabecera del asiento: {}", id);
 			return new ResponseEntity<ErrorDto>(
 					new ErrorDto("Eliminación fallida, no existe la cabecera del asiento " + id), HttpStatus.NOT_FOUND);
 		}
-		String asientoEliminado = asientoBD.get().getDescripcion();
-		asientoCabService.eliminar(asientoBD.get());
+		String asientoEliminado = asientoBD.getDescripcion();
+		asientoCabService.eliminar(asientoBD);
 		return new ResponseEntity<ErrorDto>(new ErrorDto("Cabecera del Asiento "+ asientoEliminado + " eliminada satisfactoriamente."),HttpStatus.OK);
 	}
 	
