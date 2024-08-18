@@ -31,33 +31,35 @@ import py.edu.ucsa.contabilidad.common.exceptions.CustomNotFoundException;
 @RequestMapping("asientos-detalles")
 public class AsientoDetController {
 	private static final Logger logger = LoggerFactory.getLogger(AsientoDet.class);
-	
+
 	@Autowired
 	@Qualifier("asientoDetService")
 	private AsientoDetService asientoDetService;
-	
+
 	private AsientoDetDto asientoDetDto;
-	
-	
+
 	@GetMapping("/listar")
-	public ResponseEntity<?> listar(){
+	public ResponseEntity<?> listar() {
 		return ResponseEntity.ok(asientoDetService.listar());
 	}
-	
-	@GetMapping("{id}")
-	public ResponseEntity<?> listarPorId(@PathVariable("id") Long id){
-		//return ResponseEntity.ok(cuentaContableService.getById(id), FetchMode.SELECT);
-		AsientoDetDto asientoDetDto;
-	    
-	    	asientoDetDto = asientoDetService.listarPorId(id);
-	    	if (asientoDetDto == null) {
-	            return ResponseEntity.notFound().build();
-	        }
-	    
-	    return ResponseEntity.ok(asientoDetDto);
-	}	
 
-	@GetMapping("/porcabeceraycuenta/{idAsiento}/{idCuenta}") public ResponseEntity<?> getByCabeceraYCuentaContable(@PathVariable("idAsiento") Long idAsiento, @PathVariable("idCuenta") Long idCuenta){
+	@GetMapping("{id}")
+	public ResponseEntity<?> listarPorId(@PathVariable("id") Long id) {
+		// return ResponseEntity.ok(cuentaContableService.getById(id),
+		// FetchMode.SELECT);
+		AsientoDetDto asientoDetDto;
+
+		asientoDetDto = asientoDetService.listarPorId(id);
+		if (asientoDetDto == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok(asientoDetDto);
+	}
+
+	@GetMapping("/porcabeceraycuenta/{idAsiento}/{idCuenta}")
+	public ResponseEntity<?> getByCabeceraYCuentaContable(@PathVariable("idAsiento") Long idAsiento,
+			@PathVariable("idCuenta") Long idCuenta) {
 //		try {
 //			return ResponseEntity.ok(asientoDetService.getByCabeceraYCuentaContable(idAsiento, idCuenta));
 //		} catch (NoResultException e) {
@@ -78,10 +80,10 @@ public class AsientoDetController {
 //		        return new ResponseEntity<ErrorDto>(
 //						new ErrorDto("Varios resultados para la cabecera "+ idAsiento+" y la cuenta "+ idCuenta),HttpStatus.CONFLICT);
 //		    }
-		 AsientoDet result = asientoDetService.getByCabeceraYCuentaContable(idAsiento, idCuenta);
-	        return ResponseEntity.ok(result);
+		AsientoDet result = asientoDetService.getByCabeceraYCuentaContable(idAsiento, idCuenta);
+		return ResponseEntity.ok(result);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<?> crearAsientoDet(@RequestBody AsientoDet asientoDet, UriComponentsBuilder ucBuilder) {
 		logger.info("Creando el detalle  : {}", asientoDet.getId());
@@ -90,46 +92,47 @@ public class AsientoDetController {
 		headers.setLocation(ucBuilder.path("/asientos-detalles/{id}").buildAndExpand(insertado.getId()).toUri());
 		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping("{id}")
-	public ResponseEntity<?> actualizarAsientoDet(@PathVariable("id") Long id, @RequestBody   AsientoDet asientoDet){
-		logger.info("Actualizando el detalle con el id: {}",id);
-		 AsientoDet asientoBD=asientoDetService.getById(id);
-		if(Objects.isNull(asientoBD)) {
-			logger.info("Actualización fallida, detalle con el id {} no existe",id);
+	public ResponseEntity<?> actualizarAsientoDet(@PathVariable("id") Long id, @RequestBody AsientoDet asientoDet) {
+		logger.info("Actualizando el detalle con el id: {}", id);
+		AsientoDet asientoBD = asientoDetService.getById(id);
+		if (Objects.isNull(asientoBD)) {
+			logger.info("Actualización fallida, detalle con el id {} no existe", id);
 			return new ResponseEntity<ErrorDto>(
-					new ErrorDto("Actualización fallida, no existe detalle con el id: {}"+id),HttpStatus.NOT_FOUND);
+					new ErrorDto("Actualización fallida, no existe detalle con el id: {}" + id), HttpStatus.NOT_FOUND);
 		}
 		asientoDetService.persistir(asientoDet);
 		asientoDetDto = asientoDetService.listarPorId(id);
-		return new ResponseEntity<AsientoDetDto>(asientoDetDto,HttpStatus.CREATED);
+		return new ResponseEntity<AsientoDetDto>(asientoDetDto, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("{id}")
-	public ResponseEntity<?> eliminarAsientoDet(@PathVariable("id") Long id){
+	public ResponseEntity<?> eliminarAsientoDet(@PathVariable("id") Long id) {
 		logger.info("Eliminando detalle del asiento con el id: {}", id);
-		 AsientoDet detalleBD = asientoDetService.getById(id);
-		if(Objects.isNull(detalleBD)) {
+		AsientoDet detalleBD = asientoDetService.getById(id);
+		if (Objects.isNull(detalleBD)) {
 			logger.error("Eliminación fallida, no existe el detalle del asiento: {}", id);
 			return new ResponseEntity<ErrorDto>(
 					new ErrorDto("Eliminación fallida, no existe el detalle del asiento " + id), HttpStatus.NOT_FOUND);
 		}
 		Long detalleEliminado = detalleBD.getId();
 		asientoDetService.eliminar(detalleBD);
-		return new ResponseEntity<ErrorDto>(new ErrorDto("Cabecera del Asiento con id: "+ detalleEliminado + " eliminada satisfactoriamente."),HttpStatus.OK);
+		return new ResponseEntity<ErrorDto>(
+				new ErrorDto("Cabecera del Asiento con id: " + detalleEliminado + " eliminada satisfactoriamente."),
+				HttpStatus.OK);
 	}
 	
-	  @ExceptionHandler(CustomNotFoundException.class)
-	    public ResponseEntity<String> handleNotFound(CustomNotFoundException ex) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-	    }
+//HABILITAR PARA EMITIR MENSAJES EN FORMATO CONSOLA, NO JSON
+//
+//	@ExceptionHandler(CustomNotFoundException.class)
+//	public ResponseEntity<String> handleNotFound(CustomNotFoundException ex) {
+//		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+//	}
+//
+//	@ExceptionHandler(CustomMultipleResultsException.class)
+//	public ResponseEntity<String> handleMultipleResults(CustomMultipleResultsException ex) {
+//		return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+//	}
 
-	    @ExceptionHandler(CustomMultipleResultsException.class)
-	    public ResponseEntity<String> handleMultipleResults(CustomMultipleResultsException ex) {
-	        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
-	    }
-
-	
-	
-	
 }

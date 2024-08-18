@@ -7,4 +7,7 @@ public class CustomMultipleResultsException extends RuntimeException {
 	public CustomMultipleResultsException(String message) {
 	        super(message);
 	    }
+	public CustomMultipleResultsException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

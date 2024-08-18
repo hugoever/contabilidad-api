@@ -1,6 +1,5 @@
 package py.edu.ucsa.contabilidad.api.core.services;
 
-import jakarta.persistence.FetchType;
 import py.edu.ucsa.contabilidad.api.core.entities.AsientoDet;
 import py.edu.ucsa.contabilidad.api.web.dto.AsientoDetDto;
 

@@ -27,9 +27,7 @@ public class AsientoCabServiceImpl implements AsientoCabService {
 
 	@Override
 	public AsientoCab getById(Long id) {
-	 
-	    // Handle non-eager case if needed (default behavior)
-	    return asientoCabDao.getById(id);
+	 	    return asientoCabDao.getById(id);
 	  
 	}
 

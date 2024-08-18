@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import py.edu.ucsa.contabilidad.api.core.dao.AbstractDao;
 import py.edu.ucsa.contabilidad.api.core.dao.AsientoDetDao;
 import py.edu.ucsa.contabilidad.api.core.entities.AsientoDet;
 import py.edu.ucsa.contabilidad.api.core.services.AsientoDetService;
@@ -17,7 +16,7 @@ import py.edu.ucsa.contabilidad.common.exceptions.CustomNotFoundException;
 
 @Service("asientoDetService")
 @Transactional
-public class AsientoDetServiceImpl extends AbstractDao<Long, AsientoDet> implements AsientoDetService {
+public class AsientoDetServiceImpl implements AsientoDetService {
 
 	@Autowired
 	private AsientoDetDao asientoDetDao;
