@@ -14,25 +14,25 @@ import py.edu.ucsa.contabilidad.common.exceptions.CustomNotFoundException;
 public class CustomGlobalExceptionHandler {
 	@ExceptionHandler(CustomNotFoundException.class)
 	public ResponseEntity<ErrorMsgDto> handleCustomNotFoundException(CustomNotFoundException ex) {
-		ErrorMsgDto error = new ErrorMsgDto(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+		ErrorMsgDto error = new ErrorMsgDto(HttpStatus.NOT_FOUND.value(), ex.getMessage(),"No existe registro");
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 	}
 	
 	@ExceptionHandler(CustomMultipleResultsException.class)
     public ResponseEntity<ErrorMsgDto> handleCustomMultipleResultsFoundException(CustomMultipleResultsException ex) {
-		ErrorMsgDto error = new ErrorMsgDto(HttpStatus.CONFLICT.value(), ex.getMessage());
+		ErrorMsgDto error = new ErrorMsgDto(HttpStatus.CONFLICT.value(), ex.getMessage(),"Existen varios registros con los datos");
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 	
 	@ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMsgDto> handleGeneralException(Exception ex) {
-        ErrorMsgDto error = new ErrorMsgDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+        ErrorMsgDto error = new ErrorMsgDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(),"Error");
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	
 	 @ExceptionHandler(CustomDuplicateKeyException.class)
 	    public ResponseEntity<ErrorMsgDto> handleDuplicateKeyException(CustomDuplicateKeyException ex) {
-	        ErrorMsgDto error = new ErrorMsgDto(HttpStatus.CONFLICT.value(), ex.getMessage());
+	        ErrorMsgDto error = new ErrorMsgDto(HttpStatus.CONFLICT.value(), ex.getMessage(),"Duplicación de registros");
 	        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 	    }
 

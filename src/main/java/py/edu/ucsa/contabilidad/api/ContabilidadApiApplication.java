@@ -3,13 +3,15 @@ package py.edu.ucsa.contabilidad.api;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
-@SpringBootApplication(scanBasePackages = {"py.edu.ucsa.contabilidad.api.web.controllers",
-										   "py.edu.ucsa.contabilidad.api.core.services",
-										   "py.edu.ucsa.contabilidad.api.core.dao"})
+//@SpringBootApplication(scanBasePackages = {"py.edu.ucsa.contabilidad.api.web.controllers",
+//										   "py.edu.ucsa.contabilidad.api.core.services",
+//										   "py.edu.ucsa.contabilidad.api.core.dao"})
+@SpringBootApplication(scanBasePackages = "py.edu.ucsa.contabilidad.api")
 @EnableAutoConfiguration
 @Import(JpaConfiguration.class)
 @EnableTransactionManagement

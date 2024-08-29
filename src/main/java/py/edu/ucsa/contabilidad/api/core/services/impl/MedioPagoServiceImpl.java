@@ -9,7 +9,6 @@ import jakarta.transaction.Transactional;
 import py.edu.ucsa.contabilidad.api.core.dao.MedioPagoDao;
 import py.edu.ucsa.contabilidad.api.core.entities.MedioPago;
 import py.edu.ucsa.contabilidad.api.core.services.MedioPagoService;
-import py.edu.ucsa.contabilidad.common.exceptions.CustomDuplicateKeyException;
 
 @Service("medioPagoService")
 @Transactional

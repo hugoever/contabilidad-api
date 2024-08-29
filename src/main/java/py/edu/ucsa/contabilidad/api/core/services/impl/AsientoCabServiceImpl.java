@@ -9,17 +9,25 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import py.edu.ucsa.contabilidad.api.core.dao.AsientoCabDao;
+import py.edu.ucsa.contabilidad.api.core.dao.AsientoDetDao;
+import py.edu.ucsa.contabilidad.api.core.dao.CuentaContableDao;
 import py.edu.ucsa.contabilidad.api.core.entities.AsientoCab;
+import py.edu.ucsa.contabilidad.api.core.entities.AsientoDet;
 import py.edu.ucsa.contabilidad.api.core.services.AsientoCabService;
 import py.edu.ucsa.contabilidad.api.web.dto.AsientoCabDto;
 
 @Service("asientoCabService")
-@Transactional
 public class AsientoCabServiceImpl implements AsientoCabService {
 
 	@Autowired
 	private AsientoCabDao asientoCabDao;
-	
+
+	@Autowired
+	private AsientoDetDao asientoDetDao;
+
+	@Autowired
+	private CuentaContableDao cuentaContableDao;
+
 	@Override
 	public List<AsientoCab> listar() {
 		return asientoCabDao.listar();
@@ -27,13 +35,30 @@ public class AsientoCabServiceImpl implements AsientoCabService {
 
 	@Override
 	public AsientoCab getById(Long id) {
-	 	    return asientoCabDao.getById(id);
-	  
+		return asientoCabDao.getById(id);
+
 	}
 
 	@Override
+	@Transactional(dontRollbackOn = Exception.class)
 	public AsientoCab persistir(AsientoCab entity) {
-		return asientoCabDao.persistir(entity);
+//		AsientoCab cabeceraInsertada = asientoCabDao.persistir(entity);
+//		//Long idCabeceraInsertada = cabeceraInsertada.getId();
+//		for (AsientoDet detalle : entity.getAsientosDetalles()) {
+//			detalle.setAsientoCab(cabeceraInsertada);
+//			asientoDetDao.persistir(detalle);
+//		}
+//		 return cabeceraInsertada;
+		
+		for (AsientoDet detalle : entity.getAsientosDetalles()) {
+			detalle.setAsientoCab(entity);
+			
+		}
+//		
+//		return asientoCabDao.persistir(entity);
+	    return asientoCabDao.persistir(entity);  // Persistir la cabecera, los detalles se gestionan automáticamente
+
+		
 	}
 
 	@Override
@@ -48,18 +73,13 @@ public class AsientoCabServiceImpl implements AsientoCabService {
 	}
 
 	@Override
-	public List<AsientoCabDto> getAll(){
+	public List<AsientoCabDto> getAll() {
 		List<AsientoCab> asientosCab = asientoCabDao.listar();
 		List<AsientoCabDto> asientosCabDto = new ArrayList<>();
 		for (AsientoCab asientoCab : asientosCab) {
-			AsientoCabDto asientoCabDto = new AsientoCabDto(
-					asientoCab.getId(),
-					asientoCab.getDescripcion(),
-					asientoCab.getEstado(),
-					asientoCab.getFechaAsiento(),
-					asientoCab.getFechaRegistro(),
-					asientoCab.getNroAsiento()					
-					);
+			AsientoCabDto asientoCabDto = new AsientoCabDto(asientoCab.getId(), asientoCab.getDescripcion(),
+					asientoCab.getEstado(), asientoCab.getFechaAsiento(), asientoCab.getFechaRegistro(),
+					asientoCab.getNroAsiento());
 			asientosCabDto.add(asientoCabDto);
 		}
 		return asientosCabDto;
@@ -67,13 +87,12 @@ public class AsientoCabServiceImpl implements AsientoCabService {
 
 	@Override
 	public boolean isExisteAsientoCab(String nroAsiento) {
-			return Objects.nonNull(getAsientoCabByNroAsiento(nroAsiento));
+		return Objects.nonNull(getAsientoCabByNroAsiento(nroAsiento));
 
 	}
 
 	private Object getAsientoCabByNroAsiento(String nroAsiento) {
 		return asientoCabDao.getAsientoCabByNroAsiento(nroAsiento);
 	}
-	
 
 }

@@ -1,8 +1,11 @@
 package py.edu.ucsa.contabilidad.api.web.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+//@Data
+@Setter
+@Getter
 public class AsientoDetDto {
 	private Long id;
     private Double montoDebe;

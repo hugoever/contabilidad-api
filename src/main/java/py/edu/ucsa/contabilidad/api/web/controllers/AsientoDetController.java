@@ -10,7 +10,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,8 +23,6 @@ import py.edu.ucsa.contabilidad.api.core.entities.AsientoDet;
 import py.edu.ucsa.contabilidad.api.core.services.AsientoDetService;
 import py.edu.ucsa.contabilidad.api.web.dto.AsientoDetDto;
 import py.edu.ucsa.contabilidad.api.web.dto.ErrorDto;
-import py.edu.ucsa.contabilidad.common.exceptions.CustomMultipleResultsException;
-import py.edu.ucsa.contabilidad.common.exceptions.CustomNotFoundException;
 
 @RestController
 @RequestMapping("asientos-detalles")

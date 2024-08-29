@@ -144,11 +144,11 @@ public class CuentaContableController {
 	@GetMapping("/por-codigo/{codigo}")
 	public ResponseEntity<?> getCuentaByCodigo(@PathVariable("codigo") String codigo) {
 		Optional<CuentaContable> cuentaBD = cuentaContableService.getCuentaByCodigo(codigo);
-		if (cuentaBD.isEmpty()) {
-			logger.error("No se encuentra la cuenta con el código: {}", codigo);
-			return new ResponseEntity<ErrorDto>(new ErrorDto("No se encuentra la cuenta con el código: " + codigo),
-					HttpStatus.NOT_FOUND);
-		}
+//		if (cuentaBD.isEmpty()) {
+//			logger.error("No se encuentra la cuenta con el código: {}", codigo);
+//			return new ResponseEntity<ErrorDto>(new ErrorDto("No se encuentra la cuenta con el código: " + codigo),
+//					HttpStatus.NOT_FOUND);
+//		}
 		return ResponseEntity.ok(cuentaContableService.getCuentaByCodigo(codigo));
 	}
 

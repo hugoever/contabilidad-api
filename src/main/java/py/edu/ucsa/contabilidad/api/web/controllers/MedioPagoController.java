@@ -1,7 +1,5 @@
 package py.edu.ucsa.contabilidad.api.web.controllers;
 
-import java.util.Objects;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import py.edu.ucsa.contabilidad.api.core.entities.AsientoCab;
 import py.edu.ucsa.contabilidad.api.core.entities.AsientoDet;
 import py.edu.ucsa.contabilidad.api.core.entities.MedioPago;
 import py.edu.ucsa.contabilidad.api.core.services.MedioPagoService;
-import py.edu.ucsa.contabilidad.api.web.dto.AsientoDetDto;
-import py.edu.ucsa.contabilidad.api.web.dto.ErrorDto;
 
 @RestController
 @RequestMapping("medios-pagos")
@@ -64,7 +59,7 @@ public class MedioPagoController {
 	@PostMapping
 	public ResponseEntity<?> crearMedioPago(@RequestBody MedioPago medioPago,
 			UriComponentsBuilder uriComponentBuilder) {
-		logger.info("Creando el detalle  : {}", medioPago.getId());
+		logger.info("Creando el medio de pago  : {}", medioPago.getId());
 		MedioPago insertado = medioPagoService.persistir(medioPago);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(uriComponentBuilder.path("/medios-pagos/{id}").buildAndExpand(insertado.getId()).toUri());
@@ -74,7 +69,7 @@ public class MedioPagoController {
 	
 	@PutMapping("{id}")
 	public ResponseEntity<?> actualizarMedioPago(@PathVariable("id") Long id, @RequestBody MedioPago medioPago) {
-		logger.info("Actualizando el detalle con el id: {}", id);
+		logger.info("Actualizando medio pago con el id: {}", id);
 		MedioPago medioPagoBD = medioPagoService.getById(id);	
 		medioPagoService.actualizar(medioPago);
 		return new ResponseEntity<MedioPago>(medioPagoBD, HttpStatus.CREATED);
@@ -83,7 +78,7 @@ public class MedioPagoController {
 	
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> eliminarMedioPago(@PathVariable("id") Long id) {
-		logger.info("Eliminando detalle del asiento con el id: {}", id);
+		logger.info("Eliminando medio de pago con el id: {}", id);
 		MedioPago medioPagoBD = medioPagoService.getById(id);
 		Long detalleEliminado = medioPagoBD.getId();
 		medioPagoService.eliminar(medioPagoBD);

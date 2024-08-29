@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class ErrorMsgDto {
 	private int status;
     private String message;
-   // private String detail;
+    private String detail;
     
 }

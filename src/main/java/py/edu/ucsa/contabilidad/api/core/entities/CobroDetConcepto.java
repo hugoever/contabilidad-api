@@ -10,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,32 +17,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "asientos_det")
+@Table(name = "cobros_det_concepto")
 //@Data
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@NamedQuery(name = "AsientoDet.getByCabeceraYCuentaContable", query = "SELECT d FROM AsientoDet d WHERE d.asientoCab.id = :idAsiento AND d.cuentaContable.id = :idCuenta")
-public class AsientoDet {
-
+public class CobroDetConcepto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "monto_debe")
-	private Double montoDebe;
+	@Column(name = "monto")
+	private Double monto;
 
-	@Column(name = "monto_haber")
-	private Double montoHaber;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_concepto", nullable = false)
+	private ConceptoCobro conceptoCobro;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_asiento", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_cobro", nullable = false)
 	@JsonBackReference
-	private AsientoCab asientoCab;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_cuenta_contable", nullable = false)
-	private CuentaContable cuentaContable;
-
+	private Cobro cobro;
 }

@@ -56,9 +56,9 @@ public class AsientoDetServiceImpl implements AsientoDetService {
 
 		asientoDet = asientoDetDao.getById(id);
 		if (asientoDet == null) {
-			// Handle the case where the asientoDet is not found
+
 			throw new EntityNotFoundException("AsientoDet no encontrado con id " + id);
-			// Alternatively, return null or handle it in another way
+
 		}
 		AsientoDetDto asientoDetDto = new AsientoDetDto();
 		asientoDetDto.setId(asientoDet.getId());

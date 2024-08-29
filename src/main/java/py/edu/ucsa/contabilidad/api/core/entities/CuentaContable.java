@@ -20,14 +20,18 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import py.edu.ucsa.contabilidad.api.web.dto.ErrorDto;
 import py.edu.ucsa.contabilidad.api.web.validators.Validable;
 import py.edu.ucsa.contabilidad.api.web.validators.Validador;
 
 @Entity
 @Table(name = "cuentas_contables")
-@Data
+//@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQuery(name = "CuentaContable.getCuentasByNivel", query = "SELECT cc FROM CuentaContable cc WHERE cc.nivel = :nivel")
@@ -37,9 +41,7 @@ import py.edu.ucsa.contabilidad.api.web.validators.Validador;
 @NamedQuery(name = "CuentaContable.getCuentasByTipo", query = "SELECT cc FROM CuentaContable cc WHERE cc.tipoCuenta = :tipoCuenta")
 @NamedQuery(name = "CuentaContable.getCuentasHijas", query = "SELECT cc FROM CuentaContable cc WHERE cc.cuentaPadre.id = :id")
 public class CuentaContable implements Serializable, Validable<CuentaContable> {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -3169432760891001053L;
 
 	@Id
@@ -81,19 +83,19 @@ public class CuentaContable implements Serializable, Validable<CuentaContable> {
 		return validadores;
 	}
 	
-	@Override
-	public boolean equals(Object o) {
-	    if (this == o) return true;
-	    if (o == null || getClass() != o.getClass()) return false;
-	    CuentaContable that = (CuentaContable) o;
-	    return Objects.equals(id, that.id);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-		
+//	@Override
+//	public boolean equals(Object o) {
+//	    if (this == o) return true;
+//	    if (o == null || getClass() != o.getClass()) return false;
+//	    CuentaContable that = (CuentaContable) o;
+//	    return Objects.equals(id, that.id);
+//	}
+//
+//	@Override
+//	public int hashCode() {
+//		return Objects.hash(id);
+//	}
+//		
 	@Override
 	public List<ErrorDto> validar() {
 		List<ErrorDto> errores = new ArrayList<>();

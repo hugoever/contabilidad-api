@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "contabilidad.api",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

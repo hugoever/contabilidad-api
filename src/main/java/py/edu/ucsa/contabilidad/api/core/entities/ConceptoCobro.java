@@ -1,7 +1,5 @@
 package py.edu.ucsa.contabilidad.api.core.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,32 +16,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "asientos_det")
+@Table(name = "conceptos_cobro")
 //@Data
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@NamedQuery(name = "AsientoDet.getByCabeceraYCuentaContable", query = "SELECT d FROM AsientoDet d WHERE d.asientoCab.id = :idAsiento AND d.cuentaContable.id = :idCuenta")
-public class AsientoDet {
-
+@NamedQuery(name = "ConceptoCobro.getByCodigoYCuentaContable", query = "SELECT c FROM ConceptoCobro c WHERE c.codigo = :codigo AND c.cuentaContable.id = :idCuenta")
+public class ConceptoCobro {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "monto_debe")
-	private Double montoDebe;
+	@Column(name = "codigo")
+	private String codigo;
 
-	@Column(name = "monto_haber")
-	private Double montoHaber;
+	@Column(name = "descripcion")
+	private String descripcion;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_asiento", nullable = false)
-	@JsonBackReference
-	private AsientoCab asientoCab;
-
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_cuenta_contable", nullable = false)
 	private CuentaContable cuentaContable;
-
 }

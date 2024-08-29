@@ -1,0 +1,36 @@
+meta {
+  name: crearAsiento
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8090/contabilidad.api/asientos-cabeceras
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nroAsiento": "001/17",
+      "fechaAsiento": "2024-04-01T04:00:00.000+00:00",
+      "fechaRegistro": "2024-05-01T04:00:00.000+00:00",
+    "descripcion": "ASIENTO DE COBRO DE MATRICULA DE JUAN PEREZ",
+    "estado": "PEN",
+    "asientosDetalles": [{
+        "cuentaContable": {
+          "id": 3
+        },
+        "montoDebe": 360000,
+        "montoHaber": 0
+      },
+      {
+        "cuentaContable": {
+          "id": 8
+        },
+        "montoDebe": 0,
+        "montoHaber": 360000
+      }
+    ]
+  }
+}
