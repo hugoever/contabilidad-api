@@ -62,14 +62,26 @@ public class CobroServiceImpl implements CobroService {
 	
 	@Override
 	public CobroDto actualizar(CobroDto cobroDto) {
+//		Cobro cobro = cobroMapper.toEntity(cobroDto);
+//		Cobro updatedCobro = cobroDao.actualizar(cobro);
+//		return cobroMapper.toDto(updatedCobro);
 		Cobro cobro = cobroMapper.toEntity(cobroDto);
-		Cobro updatedCobro = cobroDao.actualizar(cobro);
-		return cobroMapper.toDto(updatedCobro);
+		//Cobro cobroPersistido = cobroDao.persistir(cobro);
+		
+		for(CobroDetConcepto detalle : cobro.getDetallesConceptos()) {
+			detalle.setCobro(cobro);
+		}
+		for(CobroDetMedioPago detalle : cobro.getDetallesMediosPagos()) {
+			detalle.setCobro(cobro);
+		}
+		Cobro cobroActualizado = cobroDao.actualizar(cobro);
+		return cobroMapper.toDto(cobroActualizado);
 	}
 	
 	@Override
 	public void eliminar(CobroDto cobroDto) {
 		Cobro cobro = cobroMapper.toEntity(cobroDto);
+		cobro = cobroDao.getById(cobroDto.getId());
 		cobroDao.eliminar(cobro);
 	}
 

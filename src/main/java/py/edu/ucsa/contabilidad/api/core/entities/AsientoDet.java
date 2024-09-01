@@ -25,6 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQuery(name = "AsientoDet.getByCabeceraYCuentaContable", query = "SELECT d FROM AsientoDet d WHERE d.asientoCab.id = :idAsiento AND d.cuentaContable.id = :idCuenta")
+@NamedQuery(name = "AsientoDet.deletePorIds", query = "DELETE FROM AsientoDet ad WHERE ad.id IN :ids")
 public class AsientoDet {
 
 	@Id

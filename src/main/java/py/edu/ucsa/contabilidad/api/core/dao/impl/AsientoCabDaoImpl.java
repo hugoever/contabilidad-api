@@ -1,10 +1,13 @@
 package py.edu.ucsa.contabilidad.api.core.dao.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
 import py.edu.ucsa.contabilidad.api.core.dao.AbstractDao;
 import py.edu.ucsa.contabilidad.api.core.dao.AsientoCabDao;
 import py.edu.ucsa.contabilidad.api.core.entities.AsientoCab;
@@ -35,5 +38,17 @@ public class AsientoCabDaoImpl extends AbstractDao<Long, AsientoCab> implements 
 //			return Optional.empty();
 //		}
 	}
+
+	@Override
+    @Transactional
+    public void eliminarDetalles(List<Long> ids) {
+        // No es necesario implementar lógica adicional aquí
+        // Spring Data JPA se encargará de ejecutar la named query
+    }
+	
+//	 @Override
+//	    public AsientoDet saveDetalle(AsientoDet detalle) {
+//	        return entityManager.merge(detalle);
+//	    }
 
 }

@@ -45,7 +45,7 @@ public class CobroController {
     	return new ResponseEntity<>(nuevoCobro,HttpStatus.CREATED);
     }
     
-    @PutMapping
+    @PutMapping("{id}")
     public ResponseEntity<CobroDto> actualizar(@PathVariable Long id, @RequestBody CobroDto cobroDto){
     	cobroDto.setId(id);
     	CobroDto cobroActualizado = cobroService.actualizar(cobroDto);
